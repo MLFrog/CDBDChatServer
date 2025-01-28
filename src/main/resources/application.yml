@@ -1,0 +1,52 @@
+spring:
+  main:
+    web-application-type: reactive
+    
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev  # H2 데이터베이스 프로파일
+  r2dbc:                                           
+    url: 'r2dbc:h2:mem:///testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=false'
+    username: sa
+    password:
+#  sql:
+#    init:
+#      mode: always
+  security:
+    user:
+      name: user
+      password: password
+      roles: ADMIN
+  # 스프링 부트 내부 DB는 제거    
+  h2:
+    console:
+      enabled: false
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:sql/schema.sql    
+  
+# H2DB의 수동 생성용 프로퍼티
+h2:
+  console:
+    port: 8082
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod  # PostgreSQL 데이터베이스 프로파일
+  datasource:
+    url: jdbc:postgresql://localhost:5432/yourdbname
+    driver-class-name: org.postgresql.Driver
+    username: yourusername
+    password: yourpassword
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
