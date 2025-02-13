@@ -26,6 +26,7 @@ public class WebSecurityConfig {
     	
         http.authorizeExchange(exchanges -> 
             exchanges
+            	.pathMatchers("/**").permitAll()
                 .pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .pathMatchers(
                     "/swagger-ui/**",

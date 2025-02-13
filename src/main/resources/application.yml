@@ -12,9 +12,6 @@ spring:
     url: 'r2dbc:h2:mem:///testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=false'
     username: sa
     password:
-#  sql:
-#    init:
-#      mode: always
   security:
     user:
       name: user
