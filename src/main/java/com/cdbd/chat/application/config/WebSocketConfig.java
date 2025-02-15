@@ -1,27 +1,31 @@
 package com.cdbd.chat.application.config;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
+import org.springframework.web.reactive.socket.WebSocketHandler;
+import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter;
 
-import com.cdbd.chat.application.handler.ChatWebSocketHandler;
+import reactor.core.publisher.Sinks;
 
 @Configuration
 public class WebSocketConfig {
 
     @Bean
-    public HandlerMapping handlerMapping(ChatWebSocketHandler handler) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("/chat", handler);
-
-        SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
-        mapping.setOrder(-1);
-        mapping.setUrlMap(map);
-
-        return mapping;
+    public SimpleUrlHandlerMapping handlerMapping(WebSocketHandler wsh) {
+        return new SimpleUrlHandlerMapping(Map.of("/ws-chat", wsh), 1);
     }
+
+    @Bean
+    public WebSocketHandlerAdapter webSocketHandlerAdapter() {
+        return new WebSocketHandlerAdapter();
+    }
+
+    @Bean
+    public Sinks.Many<String> sink() {
+        return Sinks.many().multicast().directBestEffort();
+    }
+
 }
