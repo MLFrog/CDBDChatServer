@@ -25,6 +25,9 @@ public class ChatWebSocketHandler implements WebSocketHandler {
                     try {
                         // 메시지를 파싱
                         JSONObject json = new JSONObject(e);
+                        
+                        // DB 처리를 하면 될 듯
+                        
                         String username = json.getString("username");
                         if (username.equals("")) username = "익명";
                         String message = json.getString("message");
