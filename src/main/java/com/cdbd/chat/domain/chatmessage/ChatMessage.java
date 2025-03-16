@@ -52,4 +52,9 @@ public class ChatMessage {
 	public void save(ChatMessageRepository repository) {
 		repository.saveMessage(this);
 	}
+	
+	// 메시지 입력
+	public void inputMessage(String message) {
+		
+	}
 }
